@@ -1,0 +1,45 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio",
+    "test": "node testbackend.js",
+    "test:backend": "node testbackend.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.864.0",
+    "bcrypt": "^6.0.0",
+    "bullmq": "^5.56.10",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "ioredis": "^5.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "langchain": "^0.3.30",
+    "multer": "^2.0.2",
+    "openai": "^5.12.2",
+    "pg": "^8.16.3",
+    "pino": "^9.8.0",
+    "pino-http": "^10.5.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "weaviate-ts-client": "^2.2.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@prisma/client": "^6.13.0",
+    "nodemon": "^3.1.10",
+    "prisma": "^6.13.0"
+  }
+}

@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Workspace {
+  id           String   @id @default(cuid())
+  name         String
+  tenantPlan   String   @default("pro")
+  createdAt    DateTime @default(now())
+  settings     Json
+  users        User[]
+  documents    Document[]
+  queryLogs    QueryLog[]
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  passwordHash String
+  role        String   @default("member")
+  lastSeen    DateTime?
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId String
+}
+
+model Document {
+  id           String   @id @default(cuid())
+  workspace    Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId  String
+  sourceType   String
+  sourceId     String
+  sourceUrl    String?
+  title        String?
+  text         String
+  chunkIndex   Int       @default(0)
+  metadata     Json
+  embeddingRef String?
+  status       String    @default("embedding_pending")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model QueryLog {
+  id           String    @id @default(cuid())
+  workspace    Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId  String
+  user         User?     @relation(fields: [userId], references: [id])
+  userId       String?
+  queryText    String
+  retrievedSources Json
+  tokensUsed   Int       @default(0)
+  response     String
+  createdAt    DateTime  @default(now())
+}
